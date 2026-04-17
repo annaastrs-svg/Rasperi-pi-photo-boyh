@@ -114,6 +114,15 @@ try:
 except KeyboardInterrupt:
     GPIO.cleanup()
 
+
+------ !!! LIBRERIAS !!! ---------------
+
+picamera2
+RPio.GPIO
+Pillow
+python-escpos
+pyserial
+
 --------- !!! INSTRUCTIONS !!!----------- 
 
 The camera connects by CSI
