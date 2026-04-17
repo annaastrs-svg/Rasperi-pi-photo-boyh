@@ -1,1 +1,79 @@
+PROGGRAMING INSTRUCTIONS ! LIBRARYS AND MORE
 
+## LIBRERIAS
+### LIBRERIAS A USAR:
+
+#### la base que recomendare yo es esta:
+
+picamera2 - para la camara
+
+RPi.GPIO -para el boton
+
+Pillow - para editar imagen 
+
+python-escpos - para la impresora termica
+
+pyserial - como soporte 
+
+## INSTALACION EN LA RASPBERRY 
+
+#### en la Raspberry Pi OS hay que hacer lo siguiente:
+
+sudo apt update
+
+sudo apt upgrade - y
+
+sudo apt install - y python pip python3-pil python3-venv
+
+sudo apt install -y python3-libcamera python3-kms++ python3-pyqt5 python prctl libatlas-base-dev ffmpeg
+
+pip3 install RPi.GPIO pillow pyserial python-escpos picamera2
+
+
+###### Picamera2 esta soportando en raspberry pi os bullseye o posterior, y suele venir pre instalado en imagenes recientes; si hace falta, se puede instalar o actualizar con apt/pip.
+
+
+### REQUIRMENTS.TXT
+picamera2
+
+Pillow
+
+RPi.GPIO
+
+python-escpos
+
+pyserial
+
+
+## COMO PASARLO A RASPBERRY 
+Oki esto es mas como explicacion / tutotial. 
+la forma mas limpia es con VS code remote ssh
+o por terminal ssh. vs code remoto esta pensado precisamente para programar la raspberry pi a distancia.
+
+#### opcion recomendada VS Code  Remote - SSH
+primero tienes q tener el vs code , si no es super facil instalarlo, instala tmbn Remote SSH y en la R PI activalo, conecta a la ip de raspberry, abre la capeta del rpyecto y crea los codigos que ya te pase (src/) guarda y ejecuta.
+
+#### por terminal:
+ ssh pi @IP_DE_TU_RASPBERRY
+mkdir photo-print-rpi
+cd photo-print-rpi
+mkdir src docs output/photos
+nano src/main.py
+
+#### como correr el programa?
+cd photo-print-rpi
+python3 src/main.py
+
+#### por ultimo la logica del programa
+
+el sistema primero espera 
+detecta la pulsasion del boton 
+el programa detecta la señal  
+se toma la fotografia con la la camara raspberry pi v2 y la muestra en la display de raspberry, el sistema procesa todo y la imprimere en la mini impresora termica, y vuelve al loop.
+
+pues es sencillo como funciona la verdad, manda señal al programa, el programa toma decisiones y la camara sigue indicaciones, se muestra el reultado y lo ves en fisico y esa es la salida final. 
+
+#### algo que a mi me costo trabajo como entender son las separaciones de codigo 
+esto es importante, se separa el codigo en modulos para que cada archivo cumpla su funcion especifica. asi el proyecto es mas limpio y facil de leer tanto como para nosotros como para el raspberry pi, tmbn fucniona para arreglar los errores mas facilmente.
+
+https://randomnerdtutorials.com/raspberry-pi-remote-ssh-vs-code/?utm_source=perplexity
