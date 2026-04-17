@@ -1,19 +1,165 @@
+! DIY PHOTOBOTH WITH RASPBERRY PI BY ANNA STR´S ! 
 
-This is a DIY photoboth with moustly rasperri pi components ! 
-
-first i did the code on a usb in uv studio 
+First i did the code on a usb in uv studio 
 some graphs in canva and pintrest 
-i atach the rasperi to the display, plug in peripherials, atach all and install libraries for printer support.
+i atach the rasperi to the display, plug in peripherials, 
+atach all and install libraries for printer support.
 
-!!! DIAGRAM !!!
+PS : to see more u gtta go to the other branches 
 
-!!! BOM !!! 
+Objective: 
+When you press tthe botton the sistem will take the foto, show it in the display and 
+make it in the termical printer,
 
-p: rasperi is expensive i recomend buying half the price in alliexpress or stores like that.
+--------- !!! DIAGRAM !!! ----------
+{
+  "project": "photo-print-rpi",
+  "blocks": [
+    {
+      "name": "Button",
+      "type": "input",
+      "output": "GPIO 18"
+    },
+    {
+      "name": "Raspberry Pi 3 Model B",
+      "type": "controller",
+      "inputs": ["GPIO 18"],
+      "outputs": ["CSI Camera", "DSI Display", "Serial Printer"]
+    },
+    {
+      "name": "Camera Module v2",
+      "type": "sensor",
+      "connection": "CSI"
+    },
+    {
+      "name": "Raspberry Pi Display",
+      "type": "display",
+      "connection": "DSI"
+    },
+    {
+      "name": "Thermal Printer",
+      "type": "output",
+      "connection": "TTL Serial"
+    },
+    {
+      "name": "Power System",
+      "type": "power",
+      "details": "Battery or external source + buck converter to 5V"
+    }
+  ]
+}
+------- !!! HARDWERE PRINCIPAL !!! ----------
 
-!!! CODE !!!
+Raspberry pi module 3
+Raspberry pi Camera module
+Raspberry pi Display
+Mini printer termic TTL
+Buck converter 
+Micro SD 16-32 GB 
+PUSH Boton
+Baterry 7V
 
-!!! INSTRUCTIONS !!!
+PS: rasperi is expensive i recomend buying half the price in alliexpress or stores like that.
 
-LIBRARIES 
+---------- !!! MAIN PYTHON CODE !!! ----------
+ HOW IS THE CODE DISTRIBUTED ?
+
+main.py
+camera.py
+printer.py
+ui.py
+config.py
+
+-------CODE-----
+
+from time import sleep
+from pathlib import Path
+import RPi.GPIO as GPIO
+from camera import capture_photo
+from printer import print_photo
+from ui import show_screen, show_idle, show_message
+
+BUTTON_PIN = 18
+PHOTO_PATH = Path("output/photo.jpg")
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+
+def on_button(channel):
+    sleep(0.05)
+    if GPIO.input(channel) == GPIO.LOW:
+        return
+
+    try:
+        show_message("Tomando foto...")
+        capture_photo(str(PHOTO_PATH))
+        show_screen(str(PHOTO_PATH))
+        show_message("Imprimiendo...")
+        print_photo(str(PHOTO_PATH))
+        show_message("Listo")
+        sleep(1)
+        show_idle()
+    except Exception as e:
+        show_message(f"Error: {e}")
+        sleep(2)
+        show_idle()
+
+GPIO.add_event_detect(BUTTON_PIN, GPIO.FALLING, callback=on_button, bouncetime=250)
+
+show_idle()
+
+try:
+    while True:
+        sleep(1)
+except KeyboardInterrupt:
+    GPIO.cleanup()
+
+--------- !!! INSTRUCTIONS !!!----------- 
+
+The camera connects by CSI
+The Display connects by DSI
+The botton enters by GPIO configurated with the intern pull up 
+The termic printer conects by a serial TTL
+The alimentation has to be estable and separated by roots if necesary 
+
+--------
+
+clone the repositor and instal dependences
+(pip install -r requierment.txt)
+
+conecct hardware and verify that the serial puerto of the printer its oki
+anddd let the rpogramm go
+
+power on the sistem and wait for the raspberi to start, press the push botton and the sistem will get the photo,
+it will show it to u and print it!
+
+--------- !!! DIY CABINA CRAFT !!! ----------
+ 
+! Measurments ! 
+
+tower structure ! 
+hight = 40 cm 
+frontal width  = 45 cm 
+depth = 35
+
+holes ! 
+Display =  121 mm x 95mm aprox
+printer = 12 cm x 2 cm aprox 
+
+--------
+NOTES
+
+THE GPIO OF RASPBERRY PI WORK ON 3.3 V
+DO NOT CONNECT 5V SEGNALS DIRECT TO GPIO
+THE TERMIC PRINTER HAS TO HAVE AN ESTABLE ALIMENTATION
+I RECOMMED TO USE SEPARATED NAMES OF THE MODULES AND ARCHIVES TO MAKE IT CLEAN
+
+------
+requirments.txt
+
+picamera2
+Pillow
+RPi.GPIO
+python-escops
+pyserial
 
