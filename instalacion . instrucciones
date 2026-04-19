@@ -1,0 +1,40 @@
+Montar el hardware paso a paso
+Paso 1 — Prepara la Raspberry Pi
+Coloca la Raspberry Pi sobre una superficie firme donde no se mueva. Inserta la tarjeta micro SD en la ranura que tiene en la parte inferior. La tarjeta ya debe tener el sistema operativo instalado (más adelante se explica cómo).
+Paso 2 — Conecta la cámara
+La cámara se conecta al puerto que dice "CSI" en la Raspberry Pi. Ese puerto tiene un clip de plástico pequeño que se levanta. Metes el cable plano de la cámara con los contactos de metal mirando hacia el lado opuesto al clip, y bajas el clip para fijar el cable. No jales fuerte, entra suave. El otro extremo del cable va igual, al puerto de la cámara.
+Paso 3 — Conecta la pantalla
+La pantalla usa el puerto "DSI", que funciona exactamente igual que el de la cámara: clip que se levanta, cable plano adentro, clip que se baja. También puedes conectar la pantalla directamente a los pines de alimentación de la Raspberry Pi para que tome corriente de ahí.
+Paso 4 — Conecta el botón
+El botón tiene dos cables. Un cable va al pin número 18 de la Raspberry Pi (eso es el GPIO 18, el "puerto de entrada"). El otro cable va a cualquier pin que diga "GND" (que significa tierra o negativo). No importa cuál de los dos pines del botón va a cuál lado, los botones simples no tienen polaridad.
+
+⚠️ Importante: los pines de la Raspberry Pi solo toleran 3.3 voltios. Nunca conectes directamente 5 voltios a los pines GPIO o puedes dañarla permanentemente.
+
+Paso 5 — Conecta la impresora térmica
+La impresora se conecta por tres cables al puerto serial de la Raspberry Pi:
+
+El cable TX de la Raspberry Pi va al RX de la impresora
+El cable RX de la Raspberry Pi va al TX de la impresora
+El cable GND de ambos se comparte (van juntos al negativo)
+
+La impresora necesita su propia alimentación eléctrica separada (entre 5 y 9 voltios dependiendo del modelo), porque consume mucha corriente cuando imprime y si la conectas a la misma fuente que la Raspberry Pi puede causarle inestabilidad.
+Paso 6 — Conecta la alimentación
+La batería de 7 voltios pasa primero por el convertidor Buck, que la baja a exactamente 5 voltios estables. Esos 5 voltios van al puerto micro-USB de la Raspberry Pi. La impresora tiene su propia línea de alimentación desde la batería o desde una fuente separada.
+
+Parte 3 — Instalar el software
+Enciende la Raspberry Pi con la pantalla ya conectada. Abre una ventana de terminal y escribe los siguientes comandos, uno por uno, esperando que cada uno termine antes de escribir el siguiente:
+bashsudo apt update
+sudo apt upgrade -y
+sudo apt install -y python3-pip python3-venv
+pip3 install picamera2 Pillow RPi.GPIO python-escpos pyserial --break-system-packages
+Luego copia los archivos del proyecto (camera.py, printer.py, main.py, config.py) dentro de una carpeta, por ejemplo ~/photobooth/src/. Crea también la carpeta donde se guardarán las fotos:
+bashmkdir -p ~/photobooth/output
+Para correr el programa:
+bashpython3 ~/photobooth/src/main.py
+
+¿Qué es esto?
+Es una cabina de fotos que construiste tú misma desde cero. Cuando alguien aprieta el botón, la cámara toma una foto, la pantalla la muestra, y una pequeña impresora la imprime en papel térmico, igual que los tickets del supermercado.
+¿Cómo funciona?
+Imagina que la Raspberry Pi es como un cerebro pequeño. Ese cerebro está conectado a cuatro cosas: una cámara que ve, una pantalla que muestra, un botón que recibe órdenes, y una impresora que produce el resultado.
+Cuando alguien presiona el botón, le manda una señal eléctrica al cerebro. El cerebro entonces le dice a la cámara "toma una foto ahora". La cámara obedece y le manda la imagen de vuelta al cerebro. El cerebro la muestra en la pantalla para que la persona la vea, y luego le manda esa misma imagen a la impresora, que la convierte en puntos quemados sobre papel térmico.
+Todo eso sucede en pocos segundos, y todo está controlado por el código en Python que tú escribiste.
