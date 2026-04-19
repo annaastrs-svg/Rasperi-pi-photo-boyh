@@ -11,7 +11,7 @@ Objective:
 When you press tthe botton the sistem will take the foto, show it in the display and 
 make it in the termical printer,
 
---------- !!! DIAGRAM !!! ----------
+- !!! DIAGRAM !!! -
 {
   "project": "photo-print-rpi",
   "blocks": [
@@ -48,7 +48,7 @@ make it in the termical printer,
     }
   ]
 }
-------- !!! HARDWERE PRINCIPAL !!! ----------
+- !!! HARDWERE PRINCIPAL !!! -
 
 Raspberry pi module 3
 Raspberry pi Camera module
@@ -61,7 +61,7 @@ Baterry 7V
 
 PS: rasperi is expensive i recomend buying half the price in alliexpress or stores like that.
 
----------- !!! MAIN PYTHON CODE !!! ----------
+- !!! MAIN PYTHON CODE !!! -
  HOW IS THE CODE DISTRIBUTED ?
 
 main.py
@@ -70,7 +70,7 @@ printer.py
 ui.py
 config.py
 
--------CODE-----
+- CODE -
 
 from time import sleep
 from pathlib import Path
@@ -115,7 +115,7 @@ except KeyboardInterrupt:
     GPIO.cleanup()
 
 
------- !!! LIBRERIAS !!! ---------------
+- !!! LIBRERIAS !!! -
 
 picamera2
 RPio.GPIO
@@ -123,7 +123,7 @@ Pillow
 python-escpos
 pyserial
 
---------- !!! INSTRUCTIONS !!!----------- 
+- !!! INSTRUCTIONS !!! -  
 
 The camera connects by CSI
 The Display connects by DSI
@@ -142,7 +142,7 @@ anddd let the rpogramm go
 power on the sistem and wait for the raspberi to start, press the push botton and the sistem will get the photo,
 it will show it to u and print it!
 
---------- !!! DIY CABINA CRAFT !!! ----------
+- !!! DIY CABINA CRAFT !!! -
  
 ! Measurments ! 
 
