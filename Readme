@@ -11,44 +11,8 @@ Objective:
 When you press tthe botton the sistem will take the foto, show it in the display and 
 make it in the termical printer,
 
-- !!! DIAGRAM !!! -
-{
-  "project": "photo-print-rpi",
-  "blocks": [
-    {
-      "name": "Button",
-      "type": "input",
-      "output": "GPIO 18"
-    },
-    {
-      "name": "Raspberry Pi 3 Model B",
-      "type": "controller",
-      "inputs": ["GPIO 18"],
-      "outputs": ["CSI Camera", "DSI Display", "Serial Printer"]
-    },
-    {
-      "name": "Camera Module v2",
-      "type": "sensor",
-      "connection": "CSI"
-    },
-    {
-      "name": "Raspberry Pi Display",
-      "type": "display",
-      "connection": "DSI"
-    },
-    {
-      "name": "Thermal Printer",
-      "type": "output",
-      "connection": "TTL Serial"
-    },
-    {
-      "name": "Power System",
-      "type": "power",
-      "details": "Battery or external source + buck converter to 5V"
-    }
-  ]
-}
 - !!! HARDWERE PRINCIPAL !!! -
+(what u need ) 
 
 Raspberry pi module 3
 Raspberry pi Camera module
@@ -130,6 +94,10 @@ The Display connects by DSI
 The botton enters by GPIO configurated with the intern pull up 
 The termic printer conects by a serial TTL
 The alimentation has to be estable and separated by roots if necesary 
+___
+it ll look like this 
+
+
 
 --------
 
@@ -156,12 +124,17 @@ Display =  121 mm x 95mm aprox
 printer = 12 cm x 2 cm aprox 
 
 --------
-NOTES
+NOTES !!
 
 THE GPIO OF RASPBERRY PI WORK ON 3.3 V
 DO NOT CONNECT 5V SEGNALS DIRECT TO GPIO
 THE TERMIC PRINTER HAS TO HAVE AN ESTABLE ALIMENTATION
 I RECOMMED TO USE SEPARATED NAMES OF THE MODULES AND ARCHIVES TO MAKE IT CLEAN
+
+
+---- 
+links that may help u ! 
+https://www.youtube.com/watch?v=ccm12oYVrdY
 
 ------
 requirments.txt
