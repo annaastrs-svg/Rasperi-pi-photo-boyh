@@ -94,9 +94,6 @@ The Display connects by DSI
 The botton enters by GPIO configurated with the intern pull up 
 The termic printer conects by a serial TTL
 The alimentation has to be estable and separated by roots if necesary 
-___
-it ll look like this 
-
 
 
 --------
