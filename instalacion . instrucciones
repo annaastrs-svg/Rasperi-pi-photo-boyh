@@ -1,40 +1,51 @@
-Montar el hardware paso a paso
-Paso 1 — Prepara la Raspberry Pi
-Coloca la Raspberry Pi sobre una superficie firme donde no se mueva. Inserta la tarjeta micro SD en la ranura que tiene en la parte inferior. La tarjeta ya debe tener el sistema operativo instalado (más adelante se explica cómo).
-Paso 2 — Conecta la cámara
-La cámara se conecta al puerto que dice "CSI" en la Raspberry Pi. Ese puerto tiene un clip de plástico pequeño que se levanta. Metes el cable plano de la cámara con los contactos de metal mirando hacia el lado opuesto al clip, y bajas el clip para fijar el cable. No jales fuerte, entra suave. El otro extremo del cable va igual, al puerto de la cámara.
-Paso 3 — Conecta la pantalla
-La pantalla usa el puerto "DSI", que funciona exactamente igual que el de la cámara: clip que se levanta, cable plano adentro, clip que se baja. También puedes conectar la pantalla directamente a los pines de alimentación de la Raspberry Pi para que tome corriente de ahí.
-Paso 4 — Conecta el botón
-El botón tiene dos cables. Un cable va al pin número 18 de la Raspberry Pi (eso es el GPIO 18, el "puerto de entrada"). El otro cable va a cualquier pin que diga "GND" (que significa tierra o negativo). No importa cuál de los dos pines del botón va a cuál lado, los botones simples no tienen polaridad.
+Assembling the Hardware Step by Step
+Step 1 — Prepare the Raspberry Pi
+Place the Raspberry Pi on a firm surface where it won't move. Insert the micro SD card into the slot on the bottom. The card should already have the operating system installed (explained later).
 
-⚠️ Importante: los pines de la Raspberry Pi solo toleran 3.3 voltios. Nunca conectes directamente 5 voltios a los pines GPIO o puedes dañarla permanentemente.
+Step 2 — Connect the Camera
+The camera connects to the port labeled "CSI" on the Raspberry Pi. This port has a small plastic clip that lifts up. Insert the camera's ribbon cable with the metal contacts facing away from the clip, and lower the clip to secure the cable. Don't pull too hard; insert it gently. Connect the other end of the cable to the camera port in the same way.
 
-Paso 5 — Conecta la impresora térmica
-La impresora se conecta por tres cables al puerto serial de la Raspberry Pi:
+Step 3 — Connect the Display
+The display uses the "DSI" port, which works exactly the same way as the camera port: clip up, ribbon cable inserted, clip lowered. You can also connect the display directly to the Raspberry Pi's power pins to draw power from there.
 
-El cable TX de la Raspberry Pi va al RX de la impresora
-El cable RX de la Raspberry Pi va al TX de la impresora
-El cable GND de ambos se comparte (van juntos al negativo)
+Step 4 — Connect the Button
+The button has two wires. One wire goes to pin 18 of the Raspberry Pi (that's GPIO 18, the "input port"). The other wire goes to any pin labeled "GND" (which means ground or negative). It doesn't matter which of the two button pins goes to which side; simple buttons don't have polarity.
 
-La impresora necesita su propia alimentación eléctrica separada (entre 5 y 9 voltios dependiendo del modelo), porque consume mucha corriente cuando imprime y si la conectas a la misma fuente que la Raspberry Pi puede causarle inestabilidad.
-Paso 6 — Conecta la alimentación
-La batería de 7 voltios pasa primero por el convertidor Buck, que la baja a exactamente 5 voltios estables. Esos 5 voltios van al puerto micro-USB de la Raspberry Pi. La impresora tiene su propia línea de alimentación desde la batería o desde una fuente separada.
+⚠️ Important: The Raspberry Pi pins only tolerate 3.3 volts. Never connect 5 volts directly to the GPIO pins, or you may permanently damage it.
 
-Parte 3 — Instalar el software
-Enciende la Raspberry Pi con la pantalla ya conectada. Abre una ventana de terminal y escribe los siguientes comandos, uno por uno, esperando que cada uno termine antes de escribir el siguiente:
+Step 5 — Connect the thermal printer
+The printer connects to the Raspberry Pi's serial port via three wires:
+
+The Raspberry Pi's TX wire goes to the printer's RX wire.
+The Raspberry Pi's RX wire goes to the printer's TX wire.
+The GND wire is shared by both (they connect together to negative).
+
+The printer needs its own separate power supply (between 5 and 9 volts, depending on the model) because it draws a lot of current when printing, and connecting it to the same power source as the Raspberry Pi can cause instability.
+
+Step 6 — Connect the Power Supply
+The 7-volt battery first passes through the buck converter, which steps it down to a stable 5 volts. This 5 volts goes to the Raspberry Pi's micro-USB port. The printer has its own power supply line, either from the battery or a separate power source.
+
+Part 3 — Install the Software
+Power on the Raspberry Pi with the screen already connected. Open a terminal window and type the following commands, one by one, waiting for each to finish before typing the next:
+
 bashsudo apt update
 sudo apt upgrade -y
 sudo apt install -y python3-pip python3-venv
 pip3 install picamera2 Pillow RPi.GPIO python-escpos pyserial --break-system-packages
-Luego copia los archivos del proyecto (camera.py, printer.py, main.py, config.py) dentro de una carpeta, por ejemplo ~/photobooth/src/. Crea también la carpeta donde se guardarán las fotos:
+Then copy the project files (camera.py, printer.py, main.py, config.py) into a folder, for example, ~/photobooth/src/. Also create the folder where the photos will be saved:
 bashmkdir -p ~/photobooth/output
-Para correr el programa:
+To run the program:
 bashpython3 ~/photobooth/src/main.py
 
-¿Qué es esto?
-Es una cabina de fotos que construiste tú misma desde cero. Cuando alguien aprieta el botón, la cámara toma una foto, la pantalla la muestra, y una pequeña impresora la imprime en papel térmico, igual que los tickets del supermercado.
-¿Cómo funciona?
-Imagina que la Raspberry Pi es como un cerebro pequeño. Ese cerebro está conectado a cuatro cosas: una cámara que ve, una pantalla que muestra, un botón que recibe órdenes, y una impresora que produce el resultado.
-Cuando alguien presiona el botón, le manda una señal eléctrica al cerebro. El cerebro entonces le dice a la cámara "toma una foto ahora". La cámara obedece y le manda la imagen de vuelta al cerebro. El cerebro la muestra en la pantalla para que la persona la vea, y luego le manda esa misma imagen a la impresora, que la convierte en puntos quemados sobre papel térmico.
-Todo eso sucede en pocos segundos, y todo está controlado por el código en Python que tú escribiste.
+What is this?
+
+It's a photo booth you built yourself from scratch. When someone presses the button, the camera takes a picture, the screen displays it, and a small printer prints it on thermal paper, just like supermarket receipts.
+
+How does it work?
+
+Imagine the Raspberry Pi as a tiny brain. This brain is connected to four things: a camera that sees, a screen that displays, a button that receives commands, and a printer that produces the result.
+
+When someone presses the button, it sends an electrical signal to the brain. The brain then tells the camera, "Take a picture now." The camera obeys and sends the image back to the brain. The brain displays it on the screen for the person to see, and then sends that same image to the printer, which converts it into burned dots on thermal paper.
+All of this happens in a few seconds, and it's all controlled by the Python code you wrote.
+
+( I translated this with Google Translate, sorry if it's poorly translated or difficult to understand. LY ALL! ) 
